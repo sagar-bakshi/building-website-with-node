@@ -23,7 +23,6 @@ class SpeakerService {
    */
   async getNames() {
     const data = await this.getData();
-
     // We are using map() to transform the array we get into another one
     return data.map(speaker => {
       return { name: speaker.name, shortname: speaker.shortname };
@@ -35,7 +34,6 @@ class SpeakerService {
    */
   async getAllArtwork() {
     const data = await this.getData();
-
     // Array.reduce() is used to traverse all speakers and
     // create an array that contains all artwork
     const artwork = data.reduce((acc, elm) => {

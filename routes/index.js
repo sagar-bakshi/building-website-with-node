@@ -7,14 +7,19 @@ module.exports = (params) => {
 
   const { speakerService } = params;
 
-  router.get("/",async (req, res) => {
-    const topSpeakers = await speakerService.getList();
+  router.get("/",async (req, res, next) => {
+    try {
+      const topSpeakers = await speakerService.getList();
     
-    res.render("layout", {
-      pageTitle: "welcome",
-      page:"index",
-      topSpeakers
-    });
+      return res.render("layout", {
+        pageTitle: "welcome",
+        page:"index",
+        topSpeakers
+      });
+    } catch (error) {
+      return next(error);
+    }
+    
   });
 
   router.use("/speakers", speakersRoute(params));

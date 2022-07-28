@@ -38,6 +38,7 @@ app.set("views", path.join(__dirname, "./views"));
 
 app.locals.sitename = "MeetUp";
 
+
 app.use(async(req, res, next) => {
   try {
       const names = await speakerService.getNames();
