@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const createError = require("http-errors");
+const bodyParser = require("body-parser");
 
 const SpeakerService = require("./services/SpeakerService");
 const FeedbackService = require("./services/FeedbackService");
@@ -28,6 +29,8 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000,
   })
 );
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Setting up the middleware
