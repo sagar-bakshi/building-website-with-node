@@ -8,8 +8,15 @@ module.exports = (params) => {
   router.get('/', async (req, res, next)=>{
       try {
         const feedbacks = await feedbackService.getList();
-        return res.json(feedbacks);
+        console.log(feedbacks);
+        return res.render("layout", {
+          pageTitle: "Feedback",
+          page:"feedback",
+          feedbacks
+        });
+
       } catch (error) {
+
       return next(error);
     }
     
