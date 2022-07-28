@@ -11,7 +11,6 @@ const FeedbackService = require("./services/FeedbackService");
 const speakerService = new SpeakerService("./data/speakers.json");
 const feedbackService = new FeedbackService("./data/feedback.json");
 
-
 const indexRouter = require("./routes");
 const cookieSession = require("cookie-session");
 
@@ -19,7 +18,7 @@ const cookieSession = require("cookie-session");
  *Setting up cookies to store sessions
  */
 
-app.set('trust proxy',1);
+app.set("trust proxy", 1);
 
 app.use(
   cookieSession({
@@ -33,11 +32,21 @@ app.use(
  * Setting up the middleware
  */
 
-
 app.use(express.static(path.join(__dirname, "static")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "./views"));
 
+app.locals.sitename = "MeetUp";
+
+app.use(async(req, res, next) => {
+  try {
+      const names = await speakerService.getNames();
+      res.locals.speakers = names;
+      return next();
+  } catch (error) {
+    return next(error);
+  }
+});
 
 app.use(
   "/",
@@ -46,10 +55,6 @@ app.use(
     feedbackService,
   })
 );
-
-app.get('/',(req, res) => {
-  res.render("pages/index",{ pageTitle: "Home" });
-});
 
 app.listen(3000, () => {
   console.log("Example app listening on port 3000!");

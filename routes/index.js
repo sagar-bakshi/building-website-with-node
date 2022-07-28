@@ -4,9 +4,16 @@ const speakersRoute = require("./speakers");
 const feedbackRoute = require("./feedback");
 
 module.exports = (params) => {
-  router.get("/", (req, res) => {
-    res.render("pages/index", {
+
+  const { speakerService } = params;
+
+  router.get("/",async (req, res) => {
+    const topSpeakers = await speakerService.getList();
+    
+    res.render("layout", {
       pageTitle: "welcome",
+      page:"index",
+      topSpeakers
     });
   });
 

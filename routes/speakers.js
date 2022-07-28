@@ -5,21 +5,26 @@ module.exports = (params) => {
 
   const { speakerService } = params;
 
-  router.get("/", async (req, res) => {
-
-    req.session.visitCount++;
-   
+  router.get("/",async (req, res) => {
     const speakers = await speakerService.getList();
-
-    return res.json(speakers);
+    
+    res.render("layout", {
+      pageTitle: "Speakers",
+      page:"speakers",
+      speakers
+    });
   });
 
   
-  router.get("/:shortname", (req, res) => {
-    let shortname = req.params.shortname;
-    console.log(shortname);
-    res.render("pages/speakers", {
-      speakerShortName: shortname,
+  router.get("/:shortname", async (req, res) => {
+    let speaker =  await speakerService.getSpeaker(req.params.shortname);
+    let artworks = await speakerService.getArtworkForSpeaker(req.params.shortname);
+    console.log(artworks);
+    res.render("layout", {
+      pageTitle: "Speaker",
+      page:"speakers-detail",
+      speaker,
+      artworks,
     });
   });
 
